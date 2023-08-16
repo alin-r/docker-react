@@ -1,22 +1,23 @@
 sudo: required
+language: generic
 
 services:
   - docker
 
 before_install:
-  - docker build -t compex/docker-react -f Dockerfile.dev .
+  - docker build -t arauta/docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true compex/docker-react npm run test
+  - docker run -e CI=true arauta/docker-react npm run test
 
 deploy:
   provider: elasticbeanstalk
-  origin: "eu-north-1"
+  region: "eu-north-1"
   app: "MyApp"
   env: "MyApp-env"
   bucket_name: "elasticbeanstalk-eu-north-1-644391658267"
   bucket_path: "MyApp"
   on:
-    branch: master
+    branch: main
   access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: "$AWS_SECRET_KEY"
+  secret_access_key: $AWS_SECRET_KEY
